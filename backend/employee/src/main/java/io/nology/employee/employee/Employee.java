@@ -43,10 +43,13 @@ public class Employee {
     private String address;
 
     @Column
+    private String postcode;
+
+    @Column
     private String suburb;
 
     @Column
-    private String postcode;
+    private StateCode state;
 
     @Column
     private String role;
@@ -171,5 +174,13 @@ public class Employee {
 
     @Column
     private LocalDate endDate;
+
+    public StateCode getState() {
+        return state;
+    }
+
+    public void setState(StateCode state) {
+        this.state = state;
+    }
 
 }
