@@ -1,5 +1,8 @@
 package io.nology.employee.employee;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,15 @@ public class EmployeeService {
 
         return this.repo.save(newEmployee);
 
+    }
+
+    public List<Employee> findAll() {
+        List<Employee> allEmployees = this.repo.findAll();
+        return allEmployees;
+    }
+
+    public Optional<Employee> findById(Long id) {
+        return this.repo.findById(id);
     }
 
 }
