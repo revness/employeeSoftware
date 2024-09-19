@@ -34,6 +34,54 @@ public class CreateEmployeeDTO {
     @NotNull
     private StateCode state;
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getSuburb() {
+        return suburb;
+    }
+
+    public StateCode getState() {
+        return state;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public EmploymentType getEmploymentType() {
+        return employmentType;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
     @NotBlank
     @Pattern(regexp = "^[0-9]{4}$")
     private String postcode;
