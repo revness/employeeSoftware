@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -181,6 +183,18 @@ public class Employee {
 
     public void setState(StateCode state) {
         this.state = state;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        Date timestamp = new Date();
+        createdAt = timestamp;
+        updatedAt = timestamp;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = new Date();
     }
 
 }
