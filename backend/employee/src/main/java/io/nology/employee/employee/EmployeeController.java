@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,5 +52,14 @@ public class EmployeeController {
         Employee foundEmployee = result
                 .orElseThrow(() -> new NotFoundException("Could not find employee with id " + id));
         return new ResponseEntity<Employee>(foundEmployee, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id) throws NotFoundException {
+        Boolean deleteSuccessful = this.employeeService.deleteById(id);
+        if (deleteSuccessful == false) {
+            throw new NotFoundException("Could not find employee item with id " + id);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

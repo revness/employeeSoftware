@@ -87,4 +87,13 @@ public class EmployeeService {
         Employee updatedEmployee = this.repo.save(foundEmployee);
         return Optional.of(updatedEmployee);
     }
+
+    public Boolean deleteById(Long id) {
+        Optional<Employee> result = this.findById(id);
+        if (result.isEmpty()) {
+            return false;
+        }
+        this.repo.deleteById(id);
+        return true;
+    }
 }
