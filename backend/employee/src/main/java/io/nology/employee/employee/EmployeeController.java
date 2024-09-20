@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -43,4 +44,12 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(foundEmployee, HttpStatus.OK);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Employee> updateEmployeeById(@PathVariable Long id,
+            @Valid @RequestBody UpdateEmployeeDTO data) throws Exception {
+        Optional<Employee> result = this.employeeService.updateEmployeeById(id, data);
+        Employee foundEmployee = result
+                .orElseThrow(() -> new NotFoundException("Could not find employee with id " + id));
+        return new ResponseEntity<Employee>(foundEmployee, HttpStatus.OK);
+    }
 }
