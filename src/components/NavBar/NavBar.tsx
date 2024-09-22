@@ -4,8 +4,8 @@ import styles from "./NavBar.module.scss";
 const NavBar = () => {
   return (
     <div className={styles.NavBar}>
-      NavBar
       <NavLink to="/">HealthPlace</NavLink>
+      <NavLink to="/employeelist">EmployeeList</NavLink>
     </div>
   );
 };
