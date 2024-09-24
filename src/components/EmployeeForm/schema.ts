@@ -28,8 +28,8 @@ export const schema = z.object({
   postcode: z.string(),
   role: z.string(),
   employmentType: z.enum(EMPLOYMENT_TYPES),
-  startdate: z.string().date(),
-  enddate: z.string().date(),
+  startDate: z.string().date(),
+  endDate: z.string().date(),
 });
 
 export type EmployeeFormData = z.infer<typeof schema>;
