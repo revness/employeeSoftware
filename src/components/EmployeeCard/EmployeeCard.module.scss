@@ -4,11 +4,19 @@
   width: 600px;
   display: flex;
   flex-direction: row;
-
+  position: relative;
   &__img {
     width: 100px;
     height: 150px;
     object-fit: cover;
     object-position: center;
+  }
+
+  &__trash {
+    position: absolute;
+    top: 20%;
+    right: 0;
+    display: flex;
+    flex-direction: column;
   }
 }

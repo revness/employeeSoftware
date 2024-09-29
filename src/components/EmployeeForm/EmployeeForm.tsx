@@ -1,8 +1,11 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { EmployeeFormData, schema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-type FormType = "CREATE" | "EDIT";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { FormType } from "../../pages/FormPage/FormPage";
+
 interface EmployeeFormProps {
   onSubmit: (data: EmployeeFormData) => unknown;
   defaultValues?: EmployeeFormData;
@@ -11,6 +14,7 @@ interface EmployeeFormProps {
 
 const EmployeeForm = ({ onSubmit, defaultValues, type }: EmployeeFormProps) => {
   const {
+    control,
     reset,
     register,
     formState: { errors, isSubmitSuccessful },
@@ -24,6 +28,17 @@ const EmployeeForm = ({ onSubmit, defaultValues, type }: EmployeeFormProps) => {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
+
+  const formatDate = (date: Date | null): string => {
+    if (!date) return "";
+    return date.toISOString().split("T")[0]; // Returns "yyyy-mm-dd"
+  };
+
+  const parseDate = (dateString: string | undefined): Date | null => {
+    if (!dateString) return null;
+    const parsedDate = new Date(dateString);
+    return isNaN(parsedDate.getTime()) ? null : parsedDate;
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
@@ -114,20 +129,36 @@ const EmployeeForm = ({ onSubmit, defaultValues, type }: EmployeeFormProps) => {
         )}
       </div>
       <div>
-        <input
-          placeholder="Start date"
-          id="startDate"
-          type="text"
-          {...register("startDate")}
+        <Controller
+          name="startDate"
+          control={control}
+          render={({ field }) => {
+            return (
+              <DatePicker
+                placeholderText="Start date"
+                onChange={(date) => field.onChange(formatDate(date))}
+                selected={parseDate(field.value)}
+                dateFormat="yyyy-MM-dd"
+              />
+            );
+          }}
         />
+
         {errors?.startDate && <small> {errors.startDate.message}</small>}
       </div>
       <div>
-        <input
-          placeholder="End date"
-          id="endDate"
-          type="text"
-          {...register("endDate")}
+        <Controller
+          name="endDate"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <DatePicker
+              placeholderText="End date (optional)"
+              onChange={(date) => onChange(date ? formatDate(date) : undefined)}
+              selected={value ? parseDate(value) : null}
+              dateFormat="yyyy-MM-dd"
+              isClearable
+            />
+          )}
         />
         {errors?.endDate && <small> {errors.endDate.message}</small>}
       </div>
