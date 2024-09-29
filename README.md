@@ -28,10 +28,17 @@ The application consists of a spring RESTful API and a React Typescript frontend
 // adds future goals
 
 ## Change log
+14/9/24
+- initial commit 
+16/9/24
+- fleshing out employee entity with data types 
+- work on initial readme documentation. 
 
-- initial commit 14/9/24
-- fleshing out employee entity with data types 16/9/24
-- work on initial readme documentation.
+24/9/24
+-Added employee form for creating employees
+-Added getEmployees function for retrieving employees and displaying on employeeList page
+-Added phosphor icon pack dependency
+-Added datepicker to form and updated zod to allow for empty field for enddate
 
 
 

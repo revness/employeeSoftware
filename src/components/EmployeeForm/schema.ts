@@ -16,6 +16,7 @@ const STATE_CODES = [
   "TAS",
   "SA",
 ] as const;
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
 export const schema = z.object({
   firstName: z.string().min(2),
@@ -28,8 +29,13 @@ export const schema = z.object({
   postcode: z.string(),
   role: z.string(),
   employmentType: z.enum(EMPLOYMENT_TYPES),
-  startDate: z.string().date(),
-  endDate: z.string().date(),
+  startDate: z.string().regex(dateRegex, "Invalid date format. Use yyyy-mm-dd"),
+  endDate: z
+    .union([
+      z.string().regex(dateRegex, "Invalid date format. Use yyyy-mm-dd"),
+      z.null(),
+    ])
+    .optional(),
 });
 
 export type EmployeeFormData = z.infer<typeof schema>;

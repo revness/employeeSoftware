@@ -2,13 +2,15 @@ import EmployeeCard from "../../components/EmployeeCard/EmployeeCard";
 import { useEffect, useState } from "react";
 import styles from "./EmployeeList.module.scss";
 import {
+  deleteEmployeeById,
   EmployeeResponse,
   getEmployees,
 } from "../../services/employee-services";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState<EmployeeResponse[]>([]);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -21,6 +23,21 @@ const EmployeeList = () => {
     }
   };
 
+  const onDelete = async (id: number) => {
+    const isDeleted = await deleteEmployeeById(id).catch((e) => {
+      console.log(e);
+      return false;
+    });
+    if (isDeleted) {
+      const updatedEmployees = employees.filter(
+        (employee) => employee.id !== id
+      );
+      setEmployees(updatedEmployees);
+    }
+  };
+  const onUpdate = async (id: number) => {
+    navigate(`/employee/${id}/edit`);
+  };
   return (
     <div className={styles.EmployeeList}>
       <div>
@@ -28,9 +45,14 @@ const EmployeeList = () => {
           <button>Add new employee</button>
         </NavLink>
       </div>
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="">
         {employees.map((employee) => (
-          <EmployeeCard key={employee.id} employee={employee} />
+          <EmployeeCard
+            key={employee.id}
+            onDelete={onDelete}
+            onUpdate={onUpdate}
+            employee={employee}
+          />
         ))}
       </ul>
     </div>
